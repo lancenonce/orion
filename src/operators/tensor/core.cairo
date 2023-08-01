@@ -1603,6 +1603,8 @@ trait TensorTrait<T> {
     /// ```
     ///
     fn asin(self: @Tensor<T>) -> Tensor<FixedType>;
+    /// ...
+    fn conv(self: @Tensor<T>, w: @Tensor<T>, kernel_size: (usize, usize), stride: (usize, usize), padding: (usize, usize)) -> Tensor<FixedType>;
 }
 
 /// Cf: TensorTrait::new docstring
