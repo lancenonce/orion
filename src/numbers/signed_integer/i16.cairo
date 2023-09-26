@@ -33,6 +33,11 @@ impl i16Impl of IntegerTrait<i16, u16> {
     fn min(self: i16, other: i16) -> i16 {
         i16_min(self, other)
     }
+
+    fn print_tensor_val(self: i16) {
+        self.data.print();
+        self.sign.print();
+    }
 }
 
 // Implements the Into trait for i16.

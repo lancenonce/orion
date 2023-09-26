@@ -5,6 +5,7 @@
 /// abs - Computes the absolute value of the given `signed_integer`
 /// max - Returns the maximum between two `signed_integer`
 /// min - Returns the minimum between two `signed_integer`
+/// print_tensor_val - Prints the value of the given `signed_integer`
 trait IntegerTrait<T, MAG> {
     /// # IntegerTrait::new
     /// 
@@ -177,5 +178,7 @@ trait IntegerTrait<T, MAG> {
     /// ```
     /// 
     fn min(self: T, other: T) -> T;
+    /// Docstring
+    fn print_tensor_val(self: T);
 }
 

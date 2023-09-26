@@ -39,6 +39,11 @@ impl i8Impl of IntegerTrait<i8, u8> {
     fn min(self: i8, other: i8) -> i8 {
         i8_min(self, other)
     }
+
+    fn print_tensor_val(self: i8) {
+        self.data.print();
+        self.sign.print();
+    }
 }
 
 // Implements the Into trait for i8.

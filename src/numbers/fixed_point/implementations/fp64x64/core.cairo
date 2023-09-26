@@ -163,8 +163,12 @@ impl FP64x64Impl of FixedTrait<FP64x64, u128> {
     fn tanh(self: FP64x64) -> FP64x64 {
         return fp64x64::hyp::tanh(self);
     }
-}
 
+    fn print_tensor_val(self: FP64x64) {
+        self.data.print();
+        self.sign.print();
+    }
+}
 
 impl FP64x64Print of PrintTrait<FP64x64> {
     fn print(self: FP64x64) {

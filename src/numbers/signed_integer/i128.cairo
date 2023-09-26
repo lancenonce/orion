@@ -33,6 +33,11 @@ impl i128Impl of IntegerTrait<i128, u128> {
     fn min(self: i128, other: i128) -> i128 {
         i128_min(self, other)
     }
+
+    fn print_tensor_val(self: i128) {
+        self.data.print();
+        self.sign.print();
+    }
 }
 
 // Implements the Into trait for i128.

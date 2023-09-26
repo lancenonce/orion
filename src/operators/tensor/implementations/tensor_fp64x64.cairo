@@ -204,6 +204,10 @@ impl FP64x64Tensor of TensorTrait<FP64x64> {
     ) -> Tensor<FP64x64> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn print_tensor(self: @Tensor<FP8x23>) {
+        core::print_tensor(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP64x64>` using the `Add` trait.

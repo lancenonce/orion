@@ -204,6 +204,10 @@ impl FP32x32Tensor of TensorTrait<FP32x32> {
     ) -> Tensor<FP32x32> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn print_tensor(self: @Tensor<FP8x23>) {
+        core::print_tensor(self)
+    }
 }
 
 /// Implements addition for `Tensor<FP32x32>` using the `Add` trait.

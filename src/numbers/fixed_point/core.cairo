@@ -1,4 +1,3 @@
-
 /// Trait
 ///
 /// new - Constructs a new fixed point instance.
@@ -33,7 +32,7 @@
 /// cosh - Returns the value of the hyperbolic cosine of the fixed point number.
 /// sinh - Returns the value of the hyperbolic sine of the fixed point number.
 /// tanh - Returns the value of the hyperbolic tangent of the fixed point number.
-/// 
+/// print - Prints the fixed point number to the console.
 trait FixedTrait<T, MAG> {
     /// # FixedTrait::new
     /// 
@@ -1069,4 +1068,7 @@ trait FixedTrait<T, MAG> {
 
     fn ZERO() -> T;
     fn ONE() -> T;
+
+    /// Docstring
+    fn print_tensor_val(self: T);
 }

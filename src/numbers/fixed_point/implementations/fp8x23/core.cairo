@@ -174,8 +174,12 @@ impl FP8x23Impl of FixedTrait<FP8x23, u32> {
     fn tanh(self: FP8x23) -> FP8x23 {
         return hyp::tanh(self);
     }
-}
 
+    fn print_tensor_val(self: FP8x23) {
+        self.mag.print();
+        self.sign.print();
+    }
+}
 
 impl FP8x23Print of PrintTrait<FP8x23> {
     fn print(self: FP8x23) {

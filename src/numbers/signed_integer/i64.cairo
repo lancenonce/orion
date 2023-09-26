@@ -33,6 +33,11 @@ impl i64Impl of IntegerTrait<i64, u64> {
     fn min(self: i64, other: i64) -> i64 {
         i64_min(self, other)
     }
+
+    fn print_tensor_val(self: i64) {
+        self.data.print();
+        self.sign.print();
+    }
 }
 
 // Implements the Into trait for i64.

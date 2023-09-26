@@ -203,7 +203,10 @@ impl I8Tensor of TensorTrait<i8> {
     ) -> Tensor<i8> {
         core::slice(self, starts, ends, axes, steps)
     }
-    
+
+    fn print_tensor(self: @Tensor<FP8x23>) {
+        core::print_tensor(self)
+    }
 }
 
 /// Implements addition for `Tensor<i8>` using the `Add` trait.
@@ -285,9 +288,7 @@ impl I8TryIntoI8 of TryInto<i8, i8> {
 
 // Internals
 
-fn tensor_eq(
-    mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,
-) -> bool {
+fn tensor_eq(mut lhs: Tensor<i8>, mut rhs: Tensor<i8>,) -> bool {
     let mut is_eq = true;
 
     loop {

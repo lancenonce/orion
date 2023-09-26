@@ -204,6 +204,10 @@ impl I32Tensor of TensorTrait<i32> {
     ) -> Tensor<i32> {
         core::slice(self, starts, ends, axes, steps)
     }
+
+    fn print_tensor(self: @Tensor<FP8x23>) {
+        core::print_tensor(self)
+    }
 }
 
 /// Implements addition for `Tensor<i32>` using the `Add` trait.

@@ -165,6 +165,11 @@ impl FP32x32Impl of FixedTrait<FP32x32, u64> {
     fn tanh(self: FP32x32) -> FP32x32 {
         return fp32x32::hyp::tanh(self);
     }
+
+    fn print_tensor_val(self: FP32x32) {
+        self.data.print();
+        self.sign.print();
+    }
 }
 
 

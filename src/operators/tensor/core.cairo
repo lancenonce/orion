@@ -1,11 +1,13 @@
 use array::{ArrayTrait, SpanTrait};
 use serde::Serde;
 use option::OptionTrait;
+use debug::PrintTrait;
 
 use alexandria_data_structures::array_ext::{SpanTraitExt};
 
 use orion::operators::tensor::helpers::{len_from_shape, check_shape};
 use orion::numbers::i8;
+use orion::numbers::fixed_point::core::print_tensor_val;
 
 #[derive(Copy, Drop)]
 struct Tensor<T> {
@@ -72,7 +74,7 @@ impl TensorSerde<T, impl TSerde: Serde<T>, impl TDrop: Drop<T>> of Serde<Tensor<
 /// concat - Concatenate a list of tensors into a single tensor.
 /// quantize_linear - Quantizes a Tensor to i8 using linear quantization.
 /// dequantize_linear - Dequantizes an i8 Tensor using linear dequantization.
-/// 
+/// print_tensor - Prints the tensor to stdout.
 trait TensorTrait<T> {
     /// # tensor.new
     ///
@@ -2411,6 +2413,9 @@ trait TensorTrait<T> {
         axes: Option<Span<usize>>,
         steps: Option<Span<usize>>
     ) -> Tensor<T>;
+
+    /// tensor.print
+    fn print_tensor(self: @Tensor<T>);
 }
 
 
@@ -2537,7 +2542,11 @@ fn tensor_eq<T, impl TPartialEq: PartialEq<T>>(mut lhs: Tensor<T>, mut rhs: Tens
 
 /// Cf: TensorTrait::slice docstring
 fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
-    self: @Tensor<T>, starts: Span<usize>, ends: Span<usize>, axes: Option<Span<usize>>, steps: Option<Span<usize>>
+    self: @Tensor<T>,
+    starts: Span<usize>,
+    ends: Span<usize>,
+    axes: Option<Span<usize>>,
+    steps: Option<Span<usize>>
 ) -> Tensor<T> {
     let axes = match axes {
         Option::Some(axes) => axes,
@@ -2599,8 +2608,7 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
 
             if *(*self.shape).at(i) > *ends.at(axis_index) {
                 end = *ends.at(axis_index);
-            }
-            else {
+            } else {
                 end = *(*self.shape).at(i);
             }
 
@@ -2615,7 +2623,6 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
                     processed_params = (start, end, *steps.at(axis_index), dim);
                 }
             }
-
         } else {
             processed_params = (0, *(*self.shape).at(i), 1, *(*self.shape).at(i));
         }
@@ -2624,7 +2631,7 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
         processed_ends.append(end);
         processed_steps.append(step);
         output_shape.append(shape);
-        
+
         if i == stop_i {
             break ();
         }
@@ -2634,9 +2641,9 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
     let mut output_data: Array<T> = ArrayTrait::new();
 
     if is_empty {
-        return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+        return Tensor::<T> { shape: output_shape.span(), data: output_data.span() };
     }
-    
+
     let stop_j = (*self.data).len() - 1;
     let stop_k = (*self.shape).len() - 1;
     let mut j: usize = 0;
@@ -2661,8 +2668,7 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
             }
             if (index - start) % step == 0 {
                 is_included = true;
-            }
-            else {
+            } else {
                 is_included = false;
                 break ();
             }
@@ -2683,5 +2689,39 @@ fn slice<T, impl TCopy: Copy<T>, impl TDrop: Drop<T>>(
         j += 1;
     };
 
-    return Tensor::<T> {shape: output_shape.span(), data: output_data.span()};
+    return Tensor::<T> { shape: output_shape.span(), data: output_data.span() };
+}
+
+/// Prints a tensor's properties to the console.
+/// 
+/// # Arguments
+///
+/// # Panics
+/// 
+/// # Returns
+fn print_tensor<T, impl TPrint: PrintTrait<T>>(self: @Tensor<T>) {
+    let mut i = 0;
+    loop {
+        if i == (*self.shape).len() {
+            break ();
+        };
+        '['.print();
+        let shape_idx = *self.shape[i];
+        shape_idx.print();
+        ']'.print();
+        i += 1;
+    };
+    '\n'.print();
+    let mut i = 0;
+    loop {
+        if i == (*self.data).len() {
+            break ();
+        };
+        let data_idx = *self.data[i];
+        data_idx.print()
+        // print_tensor_val(data_idx);
+        ', '.print();
+        i += 1;
+    };
+    '\n'.print();
 }
